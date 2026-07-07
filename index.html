@@ -1,0 +1,81 @@
+<title>Lumen & Forge — Projects Page: 3 Layout Concepts</title>
+<style>
+  :root{
+    --ink:#1A1D25; --ink-soft:#5b5f68; --gold:#C9A227; --gold-deep:#8a6d1c;
+    --blue:#2B6BE8; --blue-hover:#1f5dcc; --paper:#ffffff; --paper-alt:#F6F5F1;
+    --line:#E7E4DC; --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    --serif:Georgia,"Times New Roman",serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper-alt);color:var(--ink);font-family:var(--sans)}
+  a{color:inherit}
+  .wrap{max-width:1000px;margin:0 auto;padding:64px 24px 90px}
+  header{text-align:center;margin-bottom:56px}
+  .eyebrow{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-deep);font-weight:700;margin:0 0 14px}
+  h1{font-family:var(--serif);font-size:clamp(30px,5vw,44px);font-weight:600;margin:0 0 18px;line-height:1.2}
+  header p{font-size:16px;line-height:1.7;color:var(--ink-soft);max-width:640px;margin:0 auto}
+  .keep{max-width:640px;margin:26px auto 0;background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px 20px;font-size:14px;color:var(--ink-soft);text-align:left}
+  .keep b{color:var(--ink)}
+
+  .cards{display:grid;gap:22px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;display:grid;grid-template-columns:220px 1fr;text-decoration:none;color:var(--ink);transition:box-shadow .2s ease, transform .2s ease}
+  .card:hover{box-shadow:0 14px 30px rgba(0,0,0,.08);transform:translateY(-2px)}
+  .card .swatch{position:relative;overflow:hidden}
+  .card .swatch::before{content:attr(data-num);position:absolute;top:14px;left:14px;color:#fff;font-family:var(--serif);font-size:32px;font-weight:600;z-index:1}
+  .card .swatch::after{content:"";position:absolute;inset:0}
+  .card.c1 .swatch::after{background:linear-gradient(135deg,#1A1D25,#3a3f4d)}
+  .card.c2 .swatch::after{background:linear-gradient(135deg,#8a6d1c,#1A1D25)}
+  .card.c3 .swatch::after{background:linear-gradient(135deg,#0b2a4a,#2B6BE8)}
+  .card .body{padding:24px 26px}
+  .card .tag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:8px}
+  .card h2{font-family:var(--serif);font-size:22px;margin:0 0 10px}
+  .card p{font-size:14.5px;line-height:1.65;color:var(--ink-soft);margin:0 0 14px}
+  .card .cta{font-size:14px;font-weight:700;color:var(--blue)}
+
+  @media (max-width:600px){.card{grid-template-columns:1fr}.card .swatch{height:110px}}
+
+  footer{text-align:center;margin-top:60px;font-size:13px;color:var(--ink-soft)}
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">For Review — Lumen &amp; Forge</p>
+    <h1>Projects Page: 3 Layout Directions</h1>
+    <p>You told us the top of the page — the hero and the logo/box grid — is working. What's not landing is the scrolling tile carousels underneath. Here are three different ways to show off projects instead. Pick the direction (or mix of directions) that feels right, and we'll take it into full design next.</p>
+    <div class="keep">✅ <b>Kept as-is in all three:</b> the header, the hero copy, and the grid of client logo boxes right below it — since that's the part everyone liked.</div>
+  </header>
+
+  <div class="cards">
+    <a class="card c1" href="concept-1-filter-grid.html" target="_blank">
+      <div class="swatch" data-num="1"></div>
+      <div class="body">
+        <span class="tag">Filterable Static Grid</span>
+        <h2>Concept 1 — Filter Grid</h2>
+        <p>A calm, evenly-sized project grid with category filter pills (Dome, Animation, Events, Mapping). No auto-motion — visitors browse at their own pace and narrow down by service.</p>
+        <span class="cta">Open Concept 1 →</span>
+      </div>
+    </a>
+
+    <a class="card c2" href="concept-2-editorial-feed.html" target="_blank">
+      <div class="swatch" data-num="2"></div>
+      <div class="body">
+        <span class="tag">Service-Led Showcase — Client Favorite</span>
+        <h2>Concept 2 — Service-Led Showcase</h2>
+        <p>Each service anchors a small cluster of its core projects, a capabilities list pulled straight from the current site, and a restrained "more work" index beneath. Refined per feedback.</p>
+        <span class="cta">Open Concept 2 →</span>
+      </div>
+    </a>
+
+    <a class="card c3" href="concept-3-bento-wall.html" target="_blank">
+      <div class="swatch" data-num="3"></div>
+      <div class="body">
+        <span class="tag">Unified Bento Mosaic</span>
+        <h2>Concept 3 — Bento Wall</h2>
+        <p>Every project in one mixed-size mosaic wall, color-coded by service. Leans into the boxy, logo-grid look you already liked at the top of the page — just bigger and richer.</p>
+        <span class="cta">Open Concept 3 →</span>
+      </div>
+    </a>
+  </div>
+
+  <footer>Mockups only — photography shown is placeholder color blocking, swapped for real project photos once a direction is chosen.</footer>
+</div>

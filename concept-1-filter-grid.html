@@ -1,0 +1,173 @@
+<title>L&F Projects — Concept 1: Filterable Grid</title>
+<style>
+  :root{
+    --ink:#1A1D25; --ink-soft:#5b5f68; --gold:#C9A227; --gold-deep:#8a6d1c;
+    --blue:#2B6BE8; --blue-hover:#1f5dcc; --paper:#ffffff; --paper-alt:#F6F5F1;
+    --line:#E7E4DC; --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    --serif:Georgia,"Times New Roman",serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans)}
+  a{color:inherit}
+  img{max-width:100%}
+
+  /* ---- review banner (not part of the real site) ---- */
+  .review-banner{background:var(--ink);color:#fff;padding:14px 20px;text-align:center;font-family:var(--sans);font-size:14px;line-height:1.5}
+  .review-banner b{color:var(--gold)}
+  .review-banner .nav{margin-top:6px;font-size:13px;opacity:.85}
+  .review-banner .nav a{color:#fff;text-decoration:underline;margin:0 8px}
+  .review-banner .nav a.current{color:var(--gold);text-decoration:none;font-weight:600}
+
+  /* ---- header (mirrors live site) ---- */
+  .site-header{border-bottom:2px solid var(--gold);background:#fff}
+  .site-header__inner{max-width:1447px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:88px;padding:0 clamp(20px,4vw,56px)}
+  .site-header__nav{display:flex;gap:clamp(20px,3vw,48px);list-style:none;margin:0;padding:0}
+  .site-header__nav a{font-size:16px;font-weight:500;text-decoration:none;color:var(--ink)}
+  .site-header__nav a:hover{color:var(--gold-deep)}
+  .site-header__brand{font-family:var(--serif);font-size:24px;font-weight:600;letter-spacing:.02em;white-space:nowrap}
+  .site-header__cta{background:var(--blue);color:#fff;padding:11px 26px;border-radius:999px;font-size:14px;font-weight:600;text-decoration:none;white-space:nowrap}
+  .site-header__cta:hover{background:var(--blue-hover)}
+  @media (max-width:900px){.site-header__nav{display:none}}
+
+  /* ---- hero ---- */
+  .hero{max-width:900px;margin:0 auto;text-align:center;padding:64px 24px 40px}
+  .hero .eyebrow{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-deep);font-weight:700;margin:0 0 14px}
+  .hero h1{font-family:var(--serif);font-size:clamp(32px,5vw,48px);font-weight:600;margin:0 0 18px;line-height:1.15}
+  .hero p{font-size:17px;line-height:1.7;color:var(--ink-soft);margin:0}
+
+  /* ---- top logo/box grid — the part the client likes, kept as-is ---- */
+  .logo-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:2px;background:var(--line)}
+  .logo-grid a{position:relative;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;overflow:hidden;text-decoration:none}
+  .logo-grid a::before{content:"";position:absolute;inset:0;opacity:.92}
+  .logo-grid a:nth-child(8n+1)::before{background:linear-gradient(135deg,#1A1D25,#3a3f4d)}
+  .logo-grid a:nth-child(8n+2)::before{background:linear-gradient(135deg,#2B3A55,#1A1D25)}
+  .logo-grid a:nth-child(8n+3)::before{background:linear-gradient(135deg,#3a2f1a,#1A1D25)}
+  .logo-grid a:nth-child(8n+4)::before{background:linear-gradient(135deg,#1A1D25,#4a4235)}
+  .logo-grid a:nth-child(8n+5)::before{background:linear-gradient(135deg,#22303f,#1A1D25)}
+  .logo-grid a:nth-child(8n+6)::before{background:linear-gradient(135deg,#1A1D25,#33261f)}
+  .logo-grid a:nth-child(8n+7)::before{background:linear-gradient(135deg,#2a2a2a,#1A1D25)}
+  .logo-grid a:nth-child(8n+8)::before{background:linear-gradient(135deg,#1e2430,#1A1D25)}
+  .logo-grid span{position:relative;z-index:1;color:#fff;font-weight:700;font-size:clamp(11px,1.3vw,15px);letter-spacing:.06em;text-align:center;padding:6px 10px;text-transform:uppercase}
+  .logo-grid a:hover::before{filter:brightness(1.15)}
+  @media (max-width:1024px){.logo-grid{grid-template-columns:repeat(4,1fr)}}
+  @media (max-width:600px){.logo-grid{grid-template-columns:repeat(2,1fr)}}
+
+  /* ---- section intro ---- */
+  .section-intro{max-width:760px;margin:0 auto;text-align:center;padding:56px 24px 8px}
+  .section-intro h2{font-family:var(--serif);font-size:34px;font-weight:600;margin:0 0 16px}
+  .section-intro p{font-size:16px;line-height:1.7;color:var(--ink-soft);margin:0}
+
+  /* ================= CONCEPT 1: FILTERABLE STATIC GRID ================= */
+  .filter-bar{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);padding:16px 24px;display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:40px}
+  .filter-pill{border:1.5px solid var(--ink);background:transparent;color:var(--ink);font-family:var(--sans);font-size:14px;font-weight:600;padding:9px 20px;border-radius:999px;cursor:pointer;transition:all .18s ease}
+  .filter-pill:hover{border-color:var(--gold-deep);color:var(--gold-deep)}
+  .filter-pill.active{background:var(--gold);border-color:var(--gold);color:#1a1500}
+
+  .project-grid{max-width:1447px;margin:0 auto;padding:40px 24px 90px;display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  @media (max-width:1100px){.project-grid{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:640px){.project-grid{grid-template-columns:1fr}}
+
+  .p-card{position:relative;border-radius:10px;overflow:hidden;aspect-ratio:4/3;cursor:pointer;transition:transform .25s ease;text-decoration:none;color:#fff}
+  .p-card:hover{transform:translateY(-4px)}
+  .p-card .art{position:absolute;inset:0}
+  .p-card .art::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.82) 0%,rgba(0,0,0,.25) 45%,rgba(0,0,0,.05) 70%)}
+  .p-card .tag{position:absolute;top:14px;left:14px;z-index:2;background:rgba(255,255,255,.94);color:var(--ink);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:6px 12px;border-radius:999px}
+  .p-card .body{position:absolute;left:16px;right:16px;bottom:16px;z-index:2}
+  .p-card .body h3{font-size:17px;font-weight:700;margin:0 0 8px;line-height:1.3;font-family:var(--sans)}
+  .p-card .view{font-size:13px;font-weight:600;color:var(--gold);opacity:0;transform:translateY(6px);transition:all .2s ease}
+  .p-card:hover .view{opacity:1;transform:translateY(0)}
+
+  .cat-dome .art{background:linear-gradient(135deg,#0b2a4a,#1A1D25 65%)}
+  .cat-map .art{background:linear-gradient(135deg,#2B6BE8,#1A1D25 65%)}
+  .cat-events .art{background:linear-gradient(135deg,#6b2c2c,#1A1D25 65%)}
+  .cat-anim .art{background:linear-gradient(135deg,#8a6d1c,#1A1D25 65%)}
+
+  .placeholder-note{max-width:760px;margin:0 auto;text-align:center;padding:0 24px 60px;font-size:13px;color:var(--ink-soft);font-style:italic}
+  footer.stub{text-align:center;padding:30px;color:var(--ink-soft);font-size:13px;border-top:1px solid var(--line)}
+</style>
+
+<div class="review-banner">
+  <div><b>Concept 1 of 3 — Filterable Static Grid</b> · a calm, browsable portfolio grid with category filters, replacing the auto-scrolling tile carousels.</div>
+  <div class="nav">Compare: <a href="concept-1-filter-grid.html" class="current">1 · Filter Grid</a> <a href="concept-2-editorial-feed.html">2 · Service-Led Showcase</a> <a href="concept-3-bento-wall.html">3 · Bento Wall</a> <a href="index.html">← Back to overview</a></div>
+</div>
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <nav><ul class="site-header__nav"><li><a href="#">Home</a></li><li><a href="#">About</a></li><li><a href="#">Blog</a></li></ul></nav>
+    <div class="site-header__brand">Lumen &amp; Forge</div>
+    <div style="display:flex;align-items:center;gap:36px">
+      <nav><ul class="site-header__nav"><li><a href="#">Services</a></li><li><a href="#" style="color:var(--gold-deep)">Projects</a></li><li><a href="#">Contact</a></li></ul></nav>
+      <a class="site-header__cta" href="#">Book a Call</a>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <p class="eyebrow">Selected Work</p>
+  <h1>Lumen &amp; Forge Projects</h1>
+  <p>From geodesic domes to building-scale projection mapping, explore how we've brought immersive experiences to life for brands, artists, and institutions around the world.</p>
+</section>
+
+<div class="logo-grid">
+  <a href="#"><span>Nike</span></a>
+  <a href="#"><span>Toyota</span></a>
+  <a href="#"><span>Don Julio</span></a>
+  <a href="#"><span>Dodgers</span></a>
+  <a href="#"><span>Texas Tech</span></a>
+  <a href="#"><span>Bitmain</span></a>
+  <a href="#"><span>McLaren × Mastercard</span></a>
+  <a href="#"><span>Travis Scott</span></a>
+</div>
+
+<div class="section-intro">
+  <h2>Projects By Service</h2>
+  <p>Lumen and Forge's immersive domes can take audiences anywhere in the universe — from geodesic and inflatable structures to building-scale projection mapping, every engagement is tailored to the occasion.</p>
+</div>
+
+<div class="filter-bar" id="filterBar">
+  <button class="filter-pill active" data-filter="all">All Projects</button>
+  <button class="filter-pill" data-filter="dome">Dome Projection</button>
+  <button class="filter-pill" data-filter="anim">Animation &amp; Visual Storytelling</button>
+  <button class="filter-pill" data-filter="events">Events &amp; Project Design</button>
+  <button class="filter-pill" data-filter="map">Projection Mapping</button>
+</div>
+
+<div class="project-grid" id="grid">
+
+  <a class="p-card cat-dome" data-cat="dome" href="#"><div class="art"></div><span class="tag">Dome Projection</span><div class="body"><h3>360° Projection Dome — Capital One Venture</h3><span class="view">View Project →</span></div></a>
+  <a class="p-card cat-map" data-cat="map" href="#"><div class="art"></div><span class="tag">Projection Mapping</span><div class="body"><h3>Don Julio: Stratosphere Projection — Super Bowl 2024</h3><span class="view">View Project →</span></div></a>
+  <a class="p-card cat-events" data-cat="events" href="#"><div class="art"></div><span class="tag">Events &amp; Design</span><div class="body"><h3>Travis Scott × Air Jordan — ComplexCon</h3><span class="view">View Project →</span></div></a>
+  <a class="p-card cat-anim" data-cat="anim" href="#"><div class="art"></div><span class="tag">Animation</span><div class="body"><h3>Immersive Exhibit — Nat Geo</h3><span class="view">View Project →</span></div></a>
+  <a class="p-card cat-map" data-cat="map" href="#"><div class="art"></div><span class="tag">Projection Mapping</span><div class="body"><h3>Nike Building Projection</h3><span class="view">View Project →</span></div></a>
+  <a class="p-card cat-dome" data-cat="dome" href="#"><div class="art"></div><span class="tag">Dome Projection</span><div class="body"><h3>World's Largest Projection Dome — Miami</h3><span class="view">View Project →</span></div></a>
+  <a class="p-card cat-events" data-cat="events" href="#"><div class="art"></div><span class="tag">Events &amp; Design</span><div class="body"><h3>Texas Tech 100th Anniversary Celebration</h3><span class="view">View Project →</span></div></a>
+  <a class="p-card cat-anim" data-cat="anim" href="#"><div class="art"></div><span class="tag">Animation</span><div class="body"><h3>The XPot</h3><span class="view">View Project →</span></div></a>
+  <a class="p-card cat-map" data-cat="map" href="#"><div class="art"></div><span class="tag">Projection Mapping</span><div class="body"><h3>McLaren × Mastercard — Projection Mapping the Stratosphere</h3><span class="view">View Project →</span></div></a>
+  <a class="p-card cat-events" data-cat="events" href="#"><div class="art"></div><span class="tag">Events &amp; Design</span><div class="body"><h3>Bitmain WDMS Crypto Conference</h3><span class="view">View Project →</span></div></a>
+  <a class="p-card cat-dome" data-cat="dome" href="#"><div class="art"></div><span class="tag">Dome Projection</span><div class="body"><h3>Experiential Branding Dome — HP Toronto</h3><span class="view">View Project →</span></div></a>
+  <a class="p-card cat-anim" data-cat="anim" href="#"><div class="art"></div><span class="tag">Animation</span><div class="body"><h3>4D Immersive Theater — Jeep</h3><span class="view">View Project →</span></div></a>
+  <a class="p-card cat-map" data-cat="map" href="#"><div class="art"></div><span class="tag">Projection Mapping</span><div class="body"><h3>Dodgers World Series — Hollywood Sign Projection</h3><span class="view">View Project →</span></div></a>
+  <a class="p-card cat-events" data-cat="events" href="#"><div class="art"></div><span class="tag">Events &amp; Design</span><div class="body"><h3>Las Vegas New Year's Eve at Area15</h3><span class="view">View Project →</span></div></a>
+  <a class="p-card cat-dome" data-cat="dome" href="#"><div class="art"></div><span class="tag">Dome Projection</span><div class="body"><h3>Resorts World Rooftop Domes</h3><span class="view">View Project →</span></div></a>
+  <a class="p-card cat-anim" data-cat="anim" href="#"><div class="art"></div><span class="tag">Animation</span><div class="body"><h3>Interactive Museum — Wild Child</h3><span class="view">View Project →</span></div></a>
+  <a class="p-card cat-map" data-cat="map" href="#"><div class="art"></div><span class="tag">Projection Mapping</span><div class="body"><h3>Projection-Mapped Mural — WorldMark by Wyndham</h3><span class="view">View Project →</span></div></a>
+  <a class="p-card cat-events" data-cat="events" href="#"><div class="art"></div><span class="tag">Events &amp; Design</span><div class="body"><h3>The Venetian Holiday Show</h3><span class="view">View Project →</span></div></a>
+
+</div>
+
+<p class="placeholder-note">Note for review: photography above is placeholder color blocking only — final project photos drop in once this layout direction is approved.</p>
+
+<footer class="stub">Concept 1 · Filterable Static Grid — mockup for internal review, not the live site.</footer>
+
+<script>
+  document.getElementById('filterBar').addEventListener('click', function(e){
+    var btn = e.target.closest('.filter-pill');
+    if(!btn) return;
+    document.querySelectorAll('.filter-pill').forEach(function(p){p.classList.remove('active')});
+    btn.classList.add('active');
+    var f = btn.dataset.filter;
+    document.querySelectorAll('#grid .p-card').forEach(function(card){
+      card.style.display = (f === 'all' || card.dataset.cat === f) ? '' : 'none';
+    });
+  });
+</script>

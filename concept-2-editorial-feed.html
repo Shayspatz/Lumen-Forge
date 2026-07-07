@@ -1,0 +1,331 @@
+<title>L&F Projects — Concept 2: Service-Led Editorial</title>
+<style>
+  :root{
+    --ink:#1A1D25; --ink-soft:#5b5f68; --gold:#C9A227; --gold-deep:#8a6d1c;
+    --blue:#2B6BE8; --blue-hover:#1f5dcc; --paper:#ffffff; --paper-alt:#F7F6F2;
+    --line:#E7E4DC; --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    --serif:Georgia,"Times New Roman",serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans)}
+  a{color:inherit}
+
+  .review-banner{background:var(--ink);color:#fff;padding:14px 20px;text-align:center;font-size:14px;line-height:1.5}
+  .review-banner b{color:var(--gold)}
+  .review-banner .nav{margin-top:6px;font-size:13px;opacity:.85}
+  .review-banner .nav a{color:#fff;text-decoration:underline;margin:0 8px}
+  .review-banner .nav a.current{color:var(--gold);text-decoration:none;font-weight:600}
+
+  .site-header{border-bottom:2px solid var(--gold);background:#fff}
+  .site-header__inner{max-width:1447px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:88px;padding:0 clamp(20px,4vw,56px)}
+  .site-header__nav{display:flex;gap:clamp(20px,3vw,48px);list-style:none;margin:0;padding:0}
+  .site-header__nav a{font-size:16px;font-weight:500;text-decoration:none;color:var(--ink)}
+  .site-header__nav a:hover{color:var(--gold-deep)}
+  .site-header__brand{font-family:var(--serif);font-size:24px;font-weight:600;letter-spacing:.02em;white-space:nowrap}
+  .site-header__cta{background:var(--blue);color:#fff;padding:11px 26px;border-radius:999px;font-size:14px;font-weight:600;text-decoration:none;white-space:nowrap}
+  .site-header__cta:hover{background:var(--blue-hover)}
+  @media (max-width:900px){.site-header__nav{display:none}}
+
+  /* ---- hero + logo grid: UNCHANGED per client note, do not alter ---- */
+  .hero{max-width:900px;margin:0 auto;text-align:center;padding:64px 24px 40px}
+  .hero .eyebrow{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-deep);font-weight:700;margin:0 0 14px}
+  .hero h1{font-family:var(--serif);font-size:clamp(32px,5vw,48px);font-weight:600;margin:0 0 18px;line-height:1.15}
+  .hero p{font-size:17px;line-height:1.7;color:var(--ink-soft);margin:0}
+
+  .logo-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:2px;background:var(--line)}
+  .logo-grid a{position:relative;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;overflow:hidden;text-decoration:none}
+  .logo-grid a::before{content:"";position:absolute;inset:0;opacity:.92}
+  .logo-grid a:nth-child(8n+1)::before{background:linear-gradient(135deg,#1A1D25,#3a3f4d)}
+  .logo-grid a:nth-child(8n+2)::before{background:linear-gradient(135deg,#2B3A55,#1A1D25)}
+  .logo-grid a:nth-child(8n+3)::before{background:linear-gradient(135deg,#3a2f1a,#1A1D25)}
+  .logo-grid a:nth-child(8n+4)::before{background:linear-gradient(135deg,#1A1D25,#4a4235)}
+  .logo-grid a:nth-child(8n+5)::before{background:linear-gradient(135deg,#22303f,#1A1D25)}
+  .logo-grid a:nth-child(8n+6)::before{background:linear-gradient(135deg,#1A1D25,#33261f)}
+  .logo-grid a:nth-child(8n+7)::before{background:linear-gradient(135deg,#2a2a2a,#1A1D25)}
+  .logo-grid a:nth-child(8n+8)::before{background:linear-gradient(135deg,#1e2430,#1A1D25)}
+  .logo-grid span{position:relative;z-index:1;color:#fff;font-weight:700;font-size:clamp(11px,1.3vw,15px);letter-spacing:.06em;text-align:center;padding:6px 10px;text-transform:uppercase}
+  .logo-grid a:hover::before{filter:brightness(1.15)}
+  @media (max-width:1024px){.logo-grid{grid-template-columns:repeat(4,1fr)}}
+  @media (max-width:600px){.logo-grid{grid-template-columns:repeat(2,1fr)}}
+
+  .section-intro{max-width:720px;margin:0 auto;text-align:center;padding:64px 24px 0}
+  .section-intro h2{font-family:var(--serif);font-size:36px;font-weight:600;margin:0 0 18px}
+  .section-intro .point-divider{width:140px;height:3px;margin:0 auto 26px}
+  .section-intro p{font-size:16px;line-height:1.7;color:var(--ink-soft);margin:0}
+
+  /* ---- signature homepage accent: the gold "point-divider" lozenge ---- */
+  .point-divider{background:linear-gradient(90deg,#BD8600 0,#FFC72F 50%,#BD8600 100%);clip-path:polygon(0% 50%,6% 0,94% 0,100% 50%,94% 100%,6% 100%);opacity:.95}
+
+  /* ---- real site button system (pulled from homepage: gradient-blue primary w/ gold sweep, gold outline secondary) ---- */
+  .btn-lf-primary{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-weight:600;font-size:14.5px;color:#fff;background:linear-gradient(90deg,#1570be,#2193e5);border:1px solid #1570be;border-radius:999px;padding:12px 26px;text-decoration:none;position:relative;overflow:hidden;transition:background .25s ease}
+  .btn-lf-primary::before{content:"";position:absolute;top:0;left:-80%;width:45%;height:100%;background:linear-gradient(120deg,transparent,rgba(255,215,0,.55),transparent);transform:skewX(-25deg);pointer-events:none}
+  .btn-lf-primary:hover::before{animation:lfGoldSweep .9s ease forwards}
+  .btn-lf-primary:hover{background:linear-gradient(90deg,#1570be,#1570be)}
+  @keyframes lfGoldSweep{from{left:-80%}to{left:130%}}
+
+  .btn-lf-outline-dark{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-weight:600;font-size:14.5px;color:#fff;background:rgba(255,255,255,.06);border:2px solid rgba(255,199,47,.8);border-radius:999px;padding:10px 24px;text-decoration:none;backdrop-filter:blur(4px);transition:all .3s ease}
+  .btn-lf-outline-dark:hover{background:rgba(255,255,255,.2);border-color:#FFC72F}
+
+  /* ================= CONCEPT 2 (refined): SERVICE-LED SHOWCASE ================= */
+  .service-block{padding:76px 0 84px}
+  .service-block:nth-of-type(even){background:var(--paper-alt)}
+  .service-block + .service-block{border-top:1px solid var(--line)}
+
+  .service-head{max-width:1300px;margin:0 auto 44px;padding:0 24px}
+  .eyebrow-line{display:flex;align-items:center;gap:12px;font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-deep);margin:0 0 18px}
+  .eyebrow-line .point-divider{width:38px;height:3px;flex-shrink:0}
+  .service-head h2{font-family:var(--serif);font-size:clamp(28px,3.6vw,42px);font-weight:600;margin:0 0 14px;line-height:1.15}
+  .service-head p.dek{max-width:620px;font-size:16.5px;line-height:1.75;color:var(--ink-soft);margin:0}
+
+  .service-body{max-width:1300px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:1.5fr 1fr;gap:44px;align-items:stretch}
+
+  /* --- left: the FEW core projects tied to this service --- */
+  .core-cluster{display:grid;grid-template-columns:1.35fr 1fr;grid-template-rows:1fr 1fr;grid-template-areas:"feature secA" "feature secB";gap:14px;height:480px}
+  .core-tile{position:relative;overflow:hidden;border-radius:12px;text-decoration:none;color:#fff;display:block}
+  .core-tile .art{position:absolute;inset:0}
+  .core-tile .art::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.82) 0%,rgba(0,0,0,.18) 55%,transparent 75%)}
+  .core-tile .core-label{position:absolute;left:18px;right:18px;bottom:16px;z-index:1;font-size:15px;font-weight:600;line-height:1.35}
+  .core-tile.feature{grid-area:feature}
+  .core-tile.feature .core-label{font-family:var(--serif);font-size:21px;font-weight:600}
+  .core-tile.secA{grid-area:secA}
+  .core-tile.secB{grid-area:secB}
+  .core-tile::before{content:"";position:absolute;inset:0;border:1px solid rgba(255,255,255,.14);border-radius:12px;z-index:2;pointer-events:none}
+  .core-tile{transition:opacity .2s ease}
+  .core-tile:hover{opacity:.92}
+
+  /* --- right: capabilities panel, pulled from real service data --- */
+  .cap-panel{background:var(--ink);border-radius:14px;padding:38px 34px;color:#fff;display:flex;flex-direction:column;height:100%}
+  .cap-panel .cap-eyebrow{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin:0 0 10px}
+  .cap-panel h3{font-family:var(--serif);font-size:22px;font-weight:600;margin:0 0 24px;color:#fff}
+  .cap-list{list-style:none;margin:0 0 28px;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:0 18px;flex:1}
+  .cap-list li{font-size:13.5px;line-height:1.4;color:#e9e7e0;display:flex;gap:9px;align-items:flex-start;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.09)}
+  .cap-list li::before{content:"✓";color:var(--gold);font-weight:700;flex-shrink:0}
+  .cap-actions{margin-top:auto;display:flex;flex-wrap:wrap;gap:12px}
+
+  @media (max-width:980px){
+    .service-body{grid-template-columns:1fr}
+    .core-cluster{height:420px}
+    .cap-panel{height:auto}
+  }
+  @media (max-width:560px){
+    .core-cluster{grid-template-columns:1fr;grid-template-rows:220px 140px 140px;grid-template-areas:"feature" "secA" "secB";height:auto}
+    .cap-list{grid-template-columns:1fr}
+  }
+
+  .art.dome{background:linear-gradient(135deg,#0b2a4a,#1A1D25 70%)}
+  .art.map{background:linear-gradient(135deg,#2B6BE8,#1A1D25 70%)}
+  .art.events{background:linear-gradient(135deg,#6b2c2c,#1A1D25 70%)}
+  .art.anim{background:linear-gradient(135deg,#8a6d1c,#1A1D25 70%)}
+
+  /* --- "more projects" contact-sheet strip --- */
+  .more-block{max-width:1300px;margin:56px auto 0;padding:0 24px}
+  .more-label{display:flex;align-items:center;gap:16px;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 24px}
+  .more-label::after{content:"";flex:1;height:1px;background:var(--line)}
+  .more-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:26px}
+  .more-item{text-decoration:none;color:var(--ink);display:block}
+  .more-item .thumb{position:relative;aspect-ratio:4/3;border-radius:8px;overflow:hidden;margin-bottom:13px}
+  .more-item .thumb::after{content:"";position:absolute;inset:0;transition:background .2s ease}
+  .more-item:hover .thumb::after{background:rgba(0,0,0,.1)}
+  .more-item .cap{font-size:13.5px;font-weight:600;line-height:1.4;color:var(--ink)}
+
+  .placeholder-note{max-width:760px;margin:0 auto;text-align:center;padding:60px 24px 60px;font-size:13px;color:var(--ink-soft);font-style:italic;border-top:1px solid var(--line)}
+  footer.stub{text-align:center;padding:30px;color:var(--ink-soft);font-size:13px}
+</style>
+
+<div class="review-banner">
+  <div><b>Concept 2 (refined) — Service-Led Showcase</b> · hero + logo grid untouched. Buttons, gold divider shape, and dual-gold palette now match the real homepage (blue gradient "primary" + gold outline "secondary", same gold lozenge divider).</div>
+  <div class="nav">Compare: <a href="concept-1-filter-grid.html">1 · Filter Grid</a> <a href="concept-2-editorial-feed.html" class="current">2 · Service-Led Showcase</a> <a href="concept-3-bento-wall.html">3 · Bento Wall</a> <a href="index.html">← Back to overview</a></div>
+</div>
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <nav><ul class="site-header__nav"><li><a href="#">Home</a></li><li><a href="#">About</a></li><li><a href="#">Blog</a></li></ul></nav>
+    <div class="site-header__brand">Lumen &amp; Forge</div>
+    <div style="display:flex;align-items:center;gap:36px">
+      <nav><ul class="site-header__nav"><li><a href="#">Services</a></li><li><a href="#" style="color:var(--gold-deep)">Projects</a></li><li><a href="#">Contact</a></li></ul></nav>
+      <a class="site-header__cta" href="#">Book a Call</a>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <p class="eyebrow">Selected Work</p>
+  <h1>Lumen &amp; Forge Projects</h1>
+  <p>From geodesic domes to building-scale projection mapping, explore how we've brought immersive experiences to life for brands, artists, and institutions around the world.</p>
+</section>
+
+<div class="logo-grid">
+  <a href="#"><span>Nike</span></a>
+  <a href="#"><span>Toyota</span></a>
+  <a href="#"><span>Don Julio</span></a>
+  <a href="#"><span>Dodgers</span></a>
+  <a href="#"><span>Texas Tech</span></a>
+  <a href="#"><span>Bitmain</span></a>
+  <a href="#"><span>McLaren × Mastercard</span></a>
+  <a href="#"><span>Travis Scott</span></a>
+</div>
+
+<div class="section-intro">
+  <h2>Projects By Service</h2>
+  <div class="point-divider"></div>
+  <p>Lumen and Forge's immersive domes can take audiences anywhere in the universe — from geodesic and inflatable structures to building-scale projection mapping, every engagement is tailored to the occasion.</p>
+</div>
+
+<!-- ============ DOME PROJECTION ============ -->
+<section class="service-block">
+  <div class="service-head">
+    <p class="eyebrow-line"><span class="point-divider"></span>01 / 04 — Dome Projection</p>
+    <h2>Dome Projection</h2>
+    <p class="dek">Geodesic and inflatable dome environments engineered for full 360° immersion — from custom fabrication and rigging to real-time show content.</p>
+  </div>
+  <div class="service-body">
+    <div class="core-cluster">
+      <a class="core-tile feature art dome" href="#"><div class="art"></div><span class="core-label">360° Projection Dome — Capital One Venture</span></a>
+      <a class="core-tile secA art dome" href="#"><div class="art"></div><span class="core-label">World's Largest Projection Dome — Miami</span></a>
+      <a class="core-tile secB art dome" href="#"><div class="art"></div><span class="core-label">Experiential Branding Dome — HP Toronto</span></a>
+    </div>
+    <div class="cap-panel">
+      <p class="cap-eyebrow">Capabilities</p>
+      <h3>Dome Projection</h3>
+      <ul class="cap-list">
+        <li>Custom Dome Engineering</li>
+        <li>Dome Fabrication</li>
+        <li>Show Running</li>
+        <li>Dome Rendering &amp; Design</li>
+        <li>Hardware &amp; Infrastructure</li>
+        <li>Custom Dome Content</li>
+        <li>Dome Projection Systems</li>
+        <li>4D Projection Dome FX</li>
+      </ul>
+      <div class="cap-actions"><a class="btn-lf-primary" href="#">Book a Call</a><a class="btn-lf-outline-dark" href="#">Explore Dome Projection →</a></div>
+    </div>
+  </div>
+  <div class="more-block">
+    <p class="more-label">More Dome Projection Work</p>
+    <div class="more-strip">
+      <a class="more-item" href="#"><div class="thumb art dome"></div><p class="cap">Resorts World Rooftop Domes</p></a>
+      <a class="more-item" href="#"><div class="thumb art dome"></div><p class="cap">360° Journey: Dominican Republic to Times Square</p></a>
+      <a class="more-item" href="#"><div class="thumb art dome"></div><p class="cap">Big Sur 360° Projection Event</p></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROJECTION MAPPING ============ -->
+<section class="service-block">
+  <div class="service-head">
+    <p class="eyebrow-line"><span class="point-divider"></span>02 / 04 — Projection Mapping</p>
+    <h2>Projection Mapping</h2>
+    <p class="dek">Building-scale, architectural, and object mapping that turns real-world surfaces into a canvas — precisely calibrated and rendered in real time.</p>
+  </div>
+  <div class="service-body">
+    <div class="core-cluster">
+      <a class="core-tile feature art map" href="#"><div class="art"></div><span class="core-label">Don Julio: Stratosphere Projection — Super Bowl 2024</span></a>
+      <a class="core-tile secA art map" href="#"><div class="art"></div><span class="core-label">Nike Building Projection</span></a>
+      <a class="core-tile secB art map" href="#"><div class="art"></div><span class="core-label">McLaren × Mastercard — The Stratosphere</span></a>
+    </div>
+    <div class="cap-panel">
+      <p class="cap-eyebrow">Capabilities</p>
+      <h3>Projection Mapping</h3>
+      <ul class="cap-list">
+        <li>Building Projection</li>
+        <li>3D Architectural Mapping</li>
+        <li>3D Projection Mapping</li>
+        <li>Large-Scale Projection Mapping</li>
+        <li>Interactive Projection</li>
+        <li>Projection Murals</li>
+        <li>Real-Time Projection Tracking</li>
+        <li>Auto-Calibration</li>
+      </ul>
+      <div class="cap-actions"><a class="btn-lf-primary" href="#">Book a Call</a><a class="btn-lf-outline-dark" href="#">Explore Projection Mapping →</a></div>
+    </div>
+  </div>
+  <div class="more-block">
+    <p class="more-label">More Projection Mapping Work</p>
+    <div class="more-strip">
+      <a class="more-item" href="#"><div class="thumb art map"></div><p class="cap">Toyota Convention Projection Mapping</p></a>
+      <a class="more-item" href="#"><div class="thumb art map"></div><p class="cap">Dodgers World Series — Hollywood Sign Projection</p></a>
+      <a class="more-item" href="#"><div class="thumb art map"></div><p class="cap">Projection-Mapped Mural — WorldMark by Wyndham</p></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ EVENTS & PROJECT DESIGN ============ -->
+<section class="service-block">
+  <div class="service-head">
+    <p class="eyebrow-line"><span class="point-divider"></span>03 / 04 — Events &amp; Project Design</p>
+    <h2>Events &amp; Project Design</h2>
+    <p class="dek">End-to-end design and previsualization for large-format live activations — from first sketch to a fully budgeted, buildable plan.</p>
+  </div>
+  <div class="service-body">
+    <div class="core-cluster">
+      <a class="core-tile feature art events" href="#"><div class="art"></div><span class="core-label">Travis Scott × Air Jordan — ComplexCon</span></a>
+      <a class="core-tile secA art events" href="#"><div class="art"></div><span class="core-label">Las Vegas New Year's Eve at Area15</span></a>
+      <a class="core-tile secB art events" href="#"><div class="art"></div><span class="core-label">Texas Tech 100th Anniversary Celebration</span></a>
+    </div>
+    <div class="cap-panel">
+      <p class="cap-eyebrow">Capabilities</p>
+      <h3>Events &amp; Project Design</h3>
+      <ul class="cap-list">
+        <li>Venue Logistic Consulting</li>
+        <li>Design &amp; Technical Drawing</li>
+        <li>Tech Spec Planning</li>
+        <li>Event Pre-Visualization</li>
+        <li>Photorealistic Images</li>
+        <li>3D Video Renders</li>
+        <li>Layouts for Approval</li>
+        <li>Budgetary Previsualization</li>
+      </ul>
+      <div class="cap-actions"><a class="btn-lf-primary" href="#">Book a Call</a><a class="btn-lf-outline-dark" href="#">Explore Events &amp; Project Design →</a></div>
+    </div>
+  </div>
+  <div class="more-block">
+    <p class="more-label">More Events &amp; Project Design Work</p>
+    <div class="more-strip">
+      <a class="more-item" href="#"><div class="thumb art events"></div><p class="cap">Bitmain WDMS Crypto Conference</p></a>
+      <a class="more-item" href="#"><div class="thumb art events"></div><p class="cap">The Venetian Holiday Show</p></a>
+      <a class="more-item" href="#"><div class="thumb art events"></div><p class="cap">Tropicana World Record</p></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ANIMATION & VISUAL STORYTELLING ============ -->
+<section class="service-block">
+  <div class="service-head">
+    <p class="eyebrow-line"><span class="point-divider"></span>04 / 04 — Animation &amp; Visual Storytelling</p>
+    <h2>Animation &amp; Visual Storytelling</h2>
+    <p class="dek">Original animated content and environmental design, built in-house to carry an experience from first frame to final gallery.</p>
+  </div>
+  <div class="service-body">
+    <div class="core-cluster">
+      <a class="core-tile feature art anim" href="#"><div class="art"></div><span class="core-label">Immersive Exhibit — Nat Geo</span></a>
+      <a class="core-tile secA art anim" href="#"><div class="art"></div><span class="core-label">DreamBox360: 5D Immersive Entertainment</span></a>
+      <a class="core-tile secB art anim" href="#"><div class="art"></div><span class="core-label">Interactive Museum — Wild Child</span></a>
+    </div>
+    <div class="cap-panel">
+      <p class="cap-eyebrow">Capabilities</p>
+      <h3>Animation &amp; Visual Storytelling</h3>
+      <ul class="cap-list">
+        <li>Environmental Design</li>
+        <li>Character Animation</li>
+        <li>Motion Capture (MoCap)</li>
+        <li>Full-Service 3D Animation Studio</li>
+        <li>Interactive Animations</li>
+        <li>AR Content</li>
+        <li>VR Content</li>
+        <li>Pre-Visualization</li>
+      </ul>
+      <div class="cap-actions"><a class="btn-lf-primary" href="#">Book a Call</a><a class="btn-lf-outline-dark" href="#">Explore Animation &amp; Visual Storytelling →</a></div>
+    </div>
+  </div>
+  <div class="more-block">
+    <p class="more-label">More Animation &amp; Visual Storytelling Work</p>
+    <div class="more-strip">
+      <a class="more-item" href="#"><div class="thumb art anim"></div><p class="cap">The XPot</p></a>
+      <a class="more-item" href="#"><div class="thumb art anim"></div><p class="cap">4D Immersive Theater — Jeep</p></a>
+    </div>
+  </div>
+</section>
+
+<p class="placeholder-note">Note for review: photography above is placeholder color blocking only — final project photos drop in once this layout direction is approved. Capabilities lists are pulled directly from the current site's content.</p>
+
+<footer class="stub">Concept 2 (refined) · Service-Led Showcase — mockup for internal review, not the live site.</footer>

@@ -1,0 +1,218 @@
+<title>L&F Projects — Layout C: Full-Bleed Story</title>
+<style>
+  :root{
+    --ink:#1A1D25; --ink-soft:#5b5f68; --gold:#C9A227; --gold-deep:#8a6d1c;
+    --blue:#2B6BE8; --blue-hover:#1f5dcc; --paper:#ffffff;
+    --line:#E7E4DC; --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    --serif:Georgia,"Times New Roman",serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans)}
+  a{color:inherit}
+
+  .review-banner{background:var(--ink);color:#fff;padding:14px 20px;text-align:center;font-size:14px;line-height:1.5}
+  .review-banner b{color:var(--gold)}
+  .review-banner .nav{margin-top:6px;font-size:13px;opacity:.85}
+  .review-banner .nav a{color:#fff;text-decoration:underline;margin:0 8px}
+
+  .site-header{border-bottom:2px solid var(--gold);background:#fff}
+  .site-header__inner{max-width:1447px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:88px;padding:0 clamp(20px,4vw,56px)}
+  .site-header__nav{display:flex;gap:clamp(20px,3vw,48px);list-style:none;margin:0;padding:0}
+  .site-header__nav a{font-size:16px;font-weight:500;text-decoration:none;color:var(--ink)}
+  .site-header__brand{font-family:var(--serif);font-size:24px;font-weight:600;white-space:nowrap}
+  .site-header__cta{background:#2B6BE8;color:#fff;padding:11px 26px;border-radius:999px;font-size:14px;font-weight:600;text-decoration:none;white-space:nowrap}
+  @media (max-width:900px){.site-header__nav{display:none}}
+
+  .hero{max-width:900px;margin:0 auto;text-align:center;padding:64px 24px 40px}
+  .hero .eyebrow{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-deep);font-weight:700;margin:0 0 14px}
+  .hero h1{font-family:var(--serif);font-size:clamp(32px,5vw,48px);font-weight:600;margin:0 0 18px;line-height:1.15}
+  .hero p{font-size:17px;line-height:1.7;color:var(--ink-soft);margin:0}
+
+  .logo-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:2px;background:var(--line)}
+  .logo-grid a{position:relative;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;overflow:hidden;text-decoration:none}
+  .logo-grid a::before{content:"";position:absolute;inset:0;opacity:.92}
+  .logo-grid a:nth-child(8n+1)::before{background:linear-gradient(135deg,#1A1D25,#3a3f4d)}
+  .logo-grid a:nth-child(8n+2)::before{background:linear-gradient(135deg,#2B3A55,#1A1D25)}
+  .logo-grid a:nth-child(8n+3)::before{background:linear-gradient(135deg,#3a2f1a,#1A1D25)}
+  .logo-grid a:nth-child(8n+4)::before{background:linear-gradient(135deg,#1A1D25,#4a4235)}
+  .logo-grid a:nth-child(8n+5)::before{background:linear-gradient(135deg,#22303f,#1A1D25)}
+  .logo-grid a:nth-child(8n+6)::before{background:linear-gradient(135deg,#1A1D25,#33261f)}
+  .logo-grid a:nth-child(8n+7)::before{background:linear-gradient(135deg,#2a2a2a,#1A1D25)}
+  .logo-grid a:nth-child(8n+8)::before{background:linear-gradient(135deg,#1e2430,#1A1D25)}
+  .logo-grid span{position:relative;z-index:1;color:#fff;font-weight:700;font-size:clamp(11px,1.3vw,15px);letter-spacing:.06em;text-align:center;padding:6px 10px;text-transform:uppercase}
+  @media (max-width:1024px){.logo-grid{grid-template-columns:repeat(4,1fr)}}
+  @media (max-width:600px){.logo-grid{grid-template-columns:repeat(2,1fr)}}
+
+  .section-intro{max-width:680px;margin:0 auto;text-align:center;padding:70px 24px 0}
+  .section-intro h2{font-family:var(--serif);font-size:36px;font-weight:600;margin:0 0 16px}
+  .section-intro p{font-size:16px;line-height:1.7;color:var(--ink-soft);margin:0}
+
+  .btn-lf-primary{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:14px;color:#fff;background:linear-gradient(90deg,#1570be,#2193e5);border-radius:999px;padding:12px 26px;text-decoration:none}
+  .btn-lf-outline-light{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:14px;color:#fff;background:rgba(255,255,255,.08);border:2px solid rgba(255,199,47,.8);border-radius:999px;padding:10px 24px;text-decoration:none;transition:all .25s ease}
+  .btn-lf-outline-light:hover{background:rgba(255,255,255,.2);border-color:#FFC72F}
+
+  /* ================= LAYOUT C: FULL-BLEED STORY CARDS ================= */
+  .story{position:relative;min-height:92vh;display:flex;align-items:flex-end;color:#fff;overflow:hidden;margin-top:70px}
+  .story:first-of-type{margin-top:70px}
+  .story .art{position:absolute;inset:0}
+  .story .art::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.88) 0%,rgba(0,0,0,.25) 55%,transparent 78%)}
+  .story .inner{position:relative;z-index:1;max-width:1300px;margin:0 auto;width:100%;padding:0 24px 64px;display:grid;grid-template-columns:1.3fr 1fr;gap:60px;align-items:end}
+  .story .num{font-size:13px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin:0 0 18px}
+  .story h2{font-family:var(--serif);font-size:clamp(38px,6vw,72px);font-weight:600;margin:0 0 20px;line-height:1.02}
+  .story .dek{font-size:16.5px;line-height:1.75;color:#d9d9d9;max-width:520px;margin:0 0 30px}
+  .story .actions{display:flex;gap:14px;flex-wrap:wrap}
+
+  .story .side{border-left:1px solid rgba(255,255,255,.25);padding-left:36px}
+  .side .label{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);color:rgba(255,255,255,.55);margin:0 0 16px}
+  .side .plist{list-style:none;margin:0 0 26px;padding:0}
+  .side .plist li{padding:10px 0;border-bottom:1px solid rgba(255,255,255,.15);font-family:var(--serif);font-size:15.5px}
+  .side .plist li a{text-decoration:none;color:#fff}
+  .side .plist li a:hover{color:var(--gold)}
+  .side .caps{font-size:12.5px;line-height:2;color:rgba(255,255,255,.7)}
+  .side .caps b{display:block;color:#fff;font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;margin-bottom:8px;font-family:var(--sans)}
+
+  @media (max-width:900px){
+    .story .inner{grid-template-columns:1fr;gap:30px}
+    .story .side{border-left:0;border-top:1px solid rgba(255,255,255,.25);padding-left:0;padding-top:24px}
+    .story{min-height:auto;padding-top:60px}
+  }
+
+  .art.dome{background:linear-gradient(150deg,#0b2a4a,#000 78%)}
+  .art.map{background:linear-gradient(150deg,#1a4fb0,#000 78%)}
+  .art.events{background:linear-gradient(150deg,#5c2020,#000 78%)}
+  .art.anim{background:linear-gradient(150deg,#6b5314,#000 78%)}
+
+  .placeholder-note{max-width:680px;margin:0 auto;text-align:center;padding:60px 24px;font-size:13px;color:var(--ink-soft);font-style:italic}
+  footer.stub{text-align:center;padding:30px;color:var(--ink-soft);font-size:13px;border-top:1px solid var(--line)}
+</style>
+
+<div class="review-banner">
+  <div><b>Finalist — Full-Bleed Story Cards</b> · inspired by agencies like Instrument's Work page: each service gets one massive cinematic full-bleed section, huge type leading, projects and capabilities as a slim side column.</div>
+  <div class="nav">Compare: <a href="apple-1-product-page.html">Apple Product Page</a> <a href="concept-2-editorial-feed.html">Service-Led Showcase</a> <a href="layout-c-fullbleed-story.html">Full-Bleed Story</a> <a href="index.html">← Back to overview</a></div>
+</div>
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <nav><ul class="site-header__nav"><li><a href="#">Home</a></li><li><a href="#">About</a></li><li><a href="#">Blog</a></li></ul></nav>
+    <div class="site-header__brand">Lumen &amp; Forge</div>
+    <div style="display:flex;align-items:center;gap:36px">
+      <nav><ul class="site-header__nav"><li><a href="#">Services</a></li><li><a href="#" style="color:var(--gold-deep)">Projects</a></li><li><a href="#">Contact</a></li></ul></nav>
+      <a class="site-header__cta" href="#">Book a Call</a>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <p class="eyebrow">Selected Work</p>
+  <h1>Lumen &amp; Forge Projects</h1>
+  <p>From geodesic domes to building-scale projection mapping, explore how we've brought immersive experiences to life for brands, artists, and institutions around the world.</p>
+</section>
+
+<div class="logo-grid">
+  <a href="#"><span>Nike</span></a><a href="#"><span>Toyota</span></a><a href="#"><span>Don Julio</span></a><a href="#"><span>Dodgers</span></a>
+  <a href="#"><span>Texas Tech</span></a><a href="#"><span>Bitmain</span></a><a href="#"><span>McLaren × Mastercard</span></a><a href="#"><span>Travis Scott</span></a>
+</div>
+
+<div class="section-intro">
+  <h2>Projects By Service</h2>
+  <p>Lumen and Forge's immersive domes can take audiences anywhere in the universe — from geodesic and inflatable structures to building-scale projection mapping.</p>
+</div>
+
+<section class="story">
+  <div class="art dome"></div>
+  <div class="inner">
+    <div>
+      <p class="num">01 — Dome Projection</p>
+      <h2>Dome<br>Projection</h2>
+      <p class="dek">Geodesic and inflatable dome environments engineered for full 360° immersion — from custom fabrication and rigging to real-time show content.</p>
+      <div class="actions">
+        <a class="btn-lf-primary" href="#">Book a Call</a>
+        <a class="btn-lf-outline-light" href="#">Explore Dome Projection →</a>
+      </div>
+    </div>
+    <div class="side">
+      <p class="label">Featured Work</p>
+      <ul class="plist">
+        <li><a href="#">360° Projection Dome — Capital One Venture</a></li>
+        <li><a href="#">World's Largest Projection Dome — Miami</a></li>
+        <li><a href="#">Experiential Branding Dome — HP Toronto</a></li>
+      </ul>
+      <p class="caps"><b>Capabilities</b>Custom Dome Engineering · Dome Fabrication · Show Running · Hardware &amp; Infrastructure · 4D Projection Dome FX</p>
+    </div>
+  </div>
+</section>
+
+<section class="story">
+  <div class="art map"></div>
+  <div class="inner">
+    <div>
+      <p class="num">02 — Projection Mapping</p>
+      <h2>Projection<br>Mapping</h2>
+      <p class="dek">Building-scale, architectural, and object mapping that turns real-world surfaces into a canvas.</p>
+      <div class="actions">
+        <a class="btn-lf-primary" href="#">Book a Call</a>
+        <a class="btn-lf-outline-light" href="#">Explore Projection Mapping →</a>
+      </div>
+    </div>
+    <div class="side">
+      <p class="label">Featured Work</p>
+      <ul class="plist">
+        <li><a href="#">Don Julio: Stratosphere Projection — Super Bowl 2024</a></li>
+        <li><a href="#">Nike Building Projection</a></li>
+        <li><a href="#">McLaren × Mastercard — The Stratosphere</a></li>
+      </ul>
+      <p class="caps"><b>Capabilities</b>Building Projection · 3D Architectural Mapping · Large-Scale Projection Mapping · Real-Time Projection Tracking · Auto-Calibration</p>
+    </div>
+  </div>
+</section>
+
+<section class="story">
+  <div class="art events"></div>
+  <div class="inner">
+    <div>
+      <p class="num">03 — Events &amp; Project Design</p>
+      <h2>Events &amp;<br>Project Design</h2>
+      <p class="dek">End-to-end design and previsualization for large-format live activations.</p>
+      <div class="actions">
+        <a class="btn-lf-primary" href="#">Book a Call</a>
+        <a class="btn-lf-outline-light" href="#">Explore Events &amp; Project Design →</a>
+      </div>
+    </div>
+    <div class="side">
+      <p class="label">Featured Work</p>
+      <ul class="plist">
+        <li><a href="#">Travis Scott × Air Jordan — ComplexCon</a></li>
+        <li><a href="#">Las Vegas New Year's Eve at Area15</a></li>
+        <li><a href="#">Texas Tech 100th Anniversary Celebration</a></li>
+      </ul>
+      <p class="caps"><b>Capabilities</b>Venue Logistic Consulting · Design &amp; Technical Drawing · Event Pre-Visualization · 3D Video Renders · Budgetary Previsualization</p>
+    </div>
+  </div>
+</section>
+
+<section class="story">
+  <div class="art anim"></div>
+  <div class="inner">
+    <div>
+      <p class="num">04 — Animation &amp; Visual Storytelling</p>
+      <h2>Animation &amp;<br>Storytelling</h2>
+      <p class="dek">Original animated content and environmental design, built in-house.</p>
+      <div class="actions">
+        <a class="btn-lf-primary" href="#">Book a Call</a>
+        <a class="btn-lf-outline-light" href="#">Explore Animation &amp; Visual Storytelling →</a>
+      </div>
+    </div>
+    <div class="side">
+      <p class="label">Featured Work</p>
+      <ul class="plist">
+        <li><a href="#">Immersive Exhibit — Nat Geo</a></li>
+        <li><a href="#">DreamBox360: 5D Immersive Entertainment</a></li>
+        <li><a href="#">Interactive Museum — Wild Child</a></li>
+      </ul>
+      <p class="caps"><b>Capabilities</b>Environmental Design · Character Animation · Motion Capture (MoCap) · AR Content · VR Content</p>
+    </div>
+  </div>
+</section>
+
+<p class="placeholder-note">Note for review: photography above is placeholder color blocking only — final project photos drop in once this layout is approved.</p>
+<footer class="stub">Layout C · Full-Bleed Story Cards — mockup for internal review, not the live site.</footer>

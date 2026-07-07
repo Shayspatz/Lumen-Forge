@@ -1,0 +1,213 @@
+<title>L&F Projects — Apple 1: Product Page</title>
+<style>
+  :root{
+    --ink:#1d1d1f; --ink-soft:#6e6e73; --gray-bg:#f5f5f7; --blue:#0071e3; --blue-hover:#0076df;
+    --blue-text:#0066cc; --gold:#C9A227; --line:#d2d2d7;
+    --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Helvetica,Arial,sans-serif;
+    --serif:Georgia,"Times New Roman",serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:#fff;color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+  a{color:inherit}
+
+  .review-banner{background:#1d1d1f;color:#fff;padding:14px 20px;text-align:center;font-size:14px;line-height:1.5;letter-spacing:-.01em}
+  .review-banner b{color:#fff;font-weight:600}
+  .review-banner .nav{margin-top:6px;font-size:13px;opacity:.75}
+  .review-banner .nav a{color:#fff;text-decoration:underline;margin:0 8px}
+
+  /* ---- header + hero + logo grid: UNCHANGED, matches real site, do not alter ---- */
+  .site-header{border-bottom:2px solid var(--gold);background:#fff}
+  .site-header__inner{max-width:1447px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:88px;padding:0 clamp(20px,4vw,56px)}
+  .site-header__nav{display:flex;gap:clamp(20px,3vw,48px);list-style:none;margin:0;padding:0}
+  .site-header__nav a{font-size:16px;font-weight:500;text-decoration:none;color:#1A1D25;letter-spacing:0}
+  .site-header__brand{font-family:var(--serif);font-size:24px;font-weight:600;white-space:nowrap;color:#1A1D25}
+  .site-header__cta{background:#2B6BE8;color:#fff;padding:11px 26px;border-radius:999px;font-size:14px;font-weight:600;text-decoration:none;white-space:nowrap}
+  @media (max-width:900px){.site-header__nav{display:none}}
+
+  .hero{max-width:900px;margin:0 auto;text-align:center;padding:64px 24px 40px;font-family:var(--serif)}
+  .hero .eyebrow{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#8a6d1c;font-weight:700;margin:0 0 14px;font-family:var(--sans)}
+  .hero h1{font-size:clamp(32px,5vw,48px);font-weight:600;margin:0 0 18px;line-height:1.15;color:#1A1D25}
+  .hero p{font-size:17px;line-height:1.7;color:#5b5f68;margin:0;font-family:var(--sans)}
+
+  .logo-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:2px;background:#E7E4DC}
+  .logo-grid a{position:relative;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;overflow:hidden;text-decoration:none}
+  .logo-grid a::before{content:"";position:absolute;inset:0;opacity:.92}
+  .logo-grid a:nth-child(8n+1)::before{background:linear-gradient(135deg,#1A1D25,#3a3f4d)}
+  .logo-grid a:nth-child(8n+2)::before{background:linear-gradient(135deg,#2B3A55,#1A1D25)}
+  .logo-grid a:nth-child(8n+3)::before{background:linear-gradient(135deg,#3a2f1a,#1A1D25)}
+  .logo-grid a:nth-child(8n+4)::before{background:linear-gradient(135deg,#1A1D25,#4a4235)}
+  .logo-grid a:nth-child(8n+5)::before{background:linear-gradient(135deg,#22303f,#1A1D25)}
+  .logo-grid a:nth-child(8n+6)::before{background:linear-gradient(135deg,#1A1D25,#33261f)}
+  .logo-grid a:nth-child(8n+7)::before{background:linear-gradient(135deg,#2a2a2a,#1A1D25)}
+  .logo-grid a:nth-child(8n+8)::before{background:linear-gradient(135deg,#1e2430,#1A1D25)}
+  .logo-grid span{position:relative;z-index:1;color:#fff;font-weight:700;font-size:clamp(11px,1.3vw,15px);letter-spacing:.06em;text-align:center;padding:6px 10px;text-transform:uppercase}
+  @media (max-width:1024px){.logo-grid{grid-template-columns:repeat(4,1fr)}}
+  @media (max-width:600px){.logo-grid{grid-template-columns:repeat(2,1fr)}}
+
+  /* ================= APPLE 1: PRODUCT PAGE LANGUAGE ================= */
+  /* real tokens pulled from apple.com's own CSS: SF Pro stack, #1d1d1f ink, #f5f5f7 alt bg,
+     #0071e3 / 980px-radius pill buttons, and negative letter-spacing throughout */
+
+  .intro{max-width:680px;margin:0 auto;text-align:center;padding:96px 24px 0}
+  .intro h2{font-size:40px;font-weight:600;letter-spacing:-.015em;margin:0 0 14px}
+  .intro p{font-size:19px;line-height:1.5;letter-spacing:.011em;color:var(--ink-soft);margin:0}
+
+  .btn-pill{display:inline-flex;align-items:center;font-size:17px;font-weight:400;letter-spacing:-.022em;color:#fff;background:var(--blue);border-radius:980px;padding:12px 22px;text-decoration:none}
+  .btn-pill:hover{background:var(--blue-hover)}
+  .link-more{display:inline-flex;align-items:center;gap:4px;font-size:17px;font-weight:400;letter-spacing:-.022em;color:var(--blue-text);text-decoration:none}
+  .link-more:hover{text-decoration:underline}
+  .link-more span{font-size:19px}
+
+  .apple-section{padding:96px 0}
+  .apple-section.alt{background:var(--gray-bg)}
+  .apple-head{max-width:900px;margin:0 auto;text-align:center;padding:0 24px 56px}
+  .apple-head .kicker{font-size:17px;font-weight:600;letter-spacing:-.022em;color:var(--ink-soft);margin:0 0 6px}
+  .apple-head h2{font-size:clamp(40px,5.5vw,64px);font-weight:600;letter-spacing:-.015em;line-height:1.05;margin:0 0 18px}
+  .apple-head .sub{font-size:21px;line-height:1.4;letter-spacing:.011em;color:var(--ink-soft);max-width:620px;margin:0 auto 34px}
+  .apple-head .cta-row{display:flex;justify-content:center;align-items:center;gap:24px;flex-wrap:wrap}
+
+  .media-band{max-width:1200px;margin:0 auto 64px;padding:0 24px}
+  .media-band .tile{aspect-ratio:21/9;border-radius:20px;overflow:hidden}
+
+  .proj-row{max-width:1000px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:repeat(3,1fr);gap:32px;text-align:center;margin-bottom:56px}
+  .proj-row a{text-decoration:none;color:var(--ink)}
+  .proj-row .thumb{aspect-ratio:4/3;border-radius:14px;overflow:hidden;margin-bottom:16px}
+  .proj-row h4{font-size:17px;font-weight:600;letter-spacing:-.022em;margin:0 0 4px}
+  .proj-row .tag{font-size:13px;color:var(--ink-soft);letter-spacing:-.01em}
+  @media (max-width:760px){.proj-row{grid-template-columns:1fr}}
+
+  .caps-line{max-width:760px;margin:0 auto;padding:0 24px;text-align:center}
+  .caps-line .label{font-size:13px;font-weight:600;letter-spacing:-.01em;color:var(--ink-soft);margin:0 0 10px}
+  .caps-line p{font-size:15px;line-height:1.7;letter-spacing:-.01em;color:var(--ink-soft);margin:0}
+
+  .art.dome{background:linear-gradient(135deg,#dfe7ee,#aebdcc)}
+  .art.map{background:linear-gradient(135deg,#dbe6fb,#9db8ee)}
+  .art.events{background:linear-gradient(135deg,#f3ddd6,#dba996)}
+  .art.anim{background:linear-gradient(135deg,#f2e6c9,#d9bd7c)}
+
+  .placeholder-note{max-width:680px;margin:0 auto;text-align:center;padding:70px 24px;font-size:13px;color:var(--ink-soft);font-style:italic}
+  footer.stub{text-align:center;padding:30px;color:var(--ink-soft);font-size:13px;border-top:1px solid var(--line)}
+</style>
+
+<div class="review-banner">
+  <div><b>Finalist — Apple Product Page</b> · Apple's real design tokens: SF Pro system font, #1d1d1f ink, #f5f5f7 alternating sections, #0071e3 pill buttons, tight negative letter-spacing.</div>
+  <div class="nav">Compare: <a href="apple-1-product-page.html">Apple Product Page</a> <a href="concept-2-editorial-feed.html">Service-Led Showcase</a> <a href="hybrid-apple-editorial.html">Hybrid</a> <a href="index.html">← Back to overview</a></div>
+</div>
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <nav><ul class="site-header__nav"><li><a href="#">Home</a></li><li><a href="#">About</a></li><li><a href="#">Blog</a></li></ul></nav>
+    <div class="site-header__brand">Lumen &amp; Forge</div>
+    <div style="display:flex;align-items:center;gap:36px">
+      <nav><ul class="site-header__nav"><li><a href="#">Services</a></li><li><a href="#" style="color:#8a6d1c">Projects</a></li><li><a href="#">Contact</a></li></ul></nav>
+      <a class="site-header__cta" href="#">Book a Call</a>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <p class="eyebrow">Selected Work</p>
+  <h1>Lumen &amp; Forge Projects</h1>
+  <p>From geodesic domes to building-scale projection mapping, explore how we've brought immersive experiences to life for brands, artists, and institutions around the world.</p>
+</section>
+
+<div class="logo-grid">
+  <a href="#"><span>Nike</span></a><a href="#"><span>Toyota</span></a><a href="#"><span>Don Julio</span></a><a href="#"><span>Dodgers</span></a>
+  <a href="#"><span>Texas Tech</span></a><a href="#"><span>Bitmain</span></a><a href="#"><span>McLaren × Mastercard</span></a><a href="#"><span>Travis Scott</span></a>
+</div>
+
+<div class="intro">
+  <h2>Projects By Service</h2>
+  <p>Every engagement, tailored to the occasion.</p>
+</div>
+
+<section class="apple-section">
+  <div class="apple-head">
+    <p class="kicker">Dome Projection</p>
+    <h2>Immersion, in the round.</h2>
+    <p class="sub">Geodesic and inflatable dome environments engineered for full 360° immersion — from custom fabrication to real-time show content.</p>
+    <div class="cta-row">
+      <a class="btn-pill" href="#">Book a Call</a>
+      <a class="link-more" href="#">Explore Dome Projection <span>›</span></a>
+    </div>
+  </div>
+  <div class="media-band"><div class="tile art dome"></div></div>
+  <div class="proj-row">
+    <a href="#"><div class="thumb art dome"></div><h4>Capital One Venture</h4><span class="tag">360° Projection Dome</span></a>
+    <a href="#"><div class="thumb art dome"></div><h4>Miami</h4><span class="tag">World's Largest Projection Dome</span></a>
+    <a href="#"><div class="thumb art dome"></div><h4>HP Toronto</h4><span class="tag">Experiential Branding Dome</span></a>
+  </div>
+  <div class="caps-line">
+    <p class="label">Capabilities</p>
+    <p>Custom Dome Engineering · Dome Fabrication · Show Running · Dome Rendering &amp; Design · Hardware &amp; Infrastructure · Custom Dome Content · Dome Projection Systems · 4D Projection Dome FX</p>
+  </div>
+</section>
+
+<section class="apple-section alt">
+  <div class="apple-head">
+    <p class="kicker">Projection Mapping</p>
+    <h2>Every surface, a screen.</h2>
+    <p class="sub">Building-scale, architectural, and object mapping that turns real-world surfaces into a canvas — calibrated and rendered in real time.</p>
+    <div class="cta-row">
+      <a class="btn-pill" href="#">Book a Call</a>
+      <a class="link-more" href="#">Explore Projection Mapping <span>›</span></a>
+    </div>
+  </div>
+  <div class="media-band"><div class="tile art map"></div></div>
+  <div class="proj-row">
+    <a href="#"><div class="thumb art map"></div><h4>Don Julio</h4><span class="tag">Stratosphere Projection — Super Bowl 2024</span></a>
+    <a href="#"><div class="thumb art map"></div><h4>Nike</h4><span class="tag">Building Projection</span></a>
+    <a href="#"><div class="thumb art map"></div><h4>McLaren × Mastercard</h4><span class="tag">The Stratosphere</span></a>
+  </div>
+  <div class="caps-line">
+    <p class="label">Capabilities</p>
+    <p>Building Projection · 3D Architectural Mapping · 3D Projection Mapping · Large-Scale Projection Mapping · Interactive Projection · Projection Murals · Real-Time Projection Tracking · Auto-Calibration</p>
+  </div>
+</section>
+
+<section class="apple-section">
+  <div class="apple-head">
+    <p class="kicker">Events &amp; Project Design</p>
+    <h2>Planned to the last detail.</h2>
+    <p class="sub">End-to-end design and previsualization for large-format live activations — from first sketch to a fully budgeted, buildable plan.</p>
+    <div class="cta-row">
+      <a class="btn-pill" href="#">Book a Call</a>
+      <a class="link-more" href="#">Explore Events &amp; Project Design <span>›</span></a>
+    </div>
+  </div>
+  <div class="media-band"><div class="tile art events"></div></div>
+  <div class="proj-row">
+    <a href="#"><div class="thumb art events"></div><h4>Travis Scott × Air Jordan</h4><span class="tag">ComplexCon</span></a>
+    <a href="#"><div class="thumb art events"></div><h4>Area15</h4><span class="tag">Las Vegas New Year's Eve</span></a>
+    <a href="#"><div class="thumb art events"></div><h4>Texas Tech</h4><span class="tag">100th Anniversary Celebration</span></a>
+  </div>
+  <div class="caps-line">
+    <p class="label">Capabilities</p>
+    <p>Venue Logistic Consulting · Design &amp; Technical Drawing · Tech Spec Planning · Event Pre-Visualization · Photorealistic Images · 3D Video Renders · Layouts for Approval · Budgetary Previsualization</p>
+  </div>
+</section>
+
+<section class="apple-section alt">
+  <div class="apple-head">
+    <p class="kicker">Animation &amp; Visual Storytelling</p>
+    <h2>Stories, brought to life.</h2>
+    <p class="sub">Original animated content and environmental design, built in-house to carry an experience from first frame to final gallery.</p>
+    <div class="cta-row">
+      <a class="btn-pill" href="#">Book a Call</a>
+      <a class="link-more" href="#">Explore Animation &amp; Visual Storytelling <span>›</span></a>
+    </div>
+  </div>
+  <div class="media-band"><div class="tile art anim"></div></div>
+  <div class="proj-row">
+    <a href="#"><div class="thumb art anim"></div><h4>Nat Geo</h4><span class="tag">Immersive Exhibit</span></a>
+    <a href="#"><div class="thumb art anim"></div><h4>DreamBox360</h4><span class="tag">5D Immersive Entertainment</span></a>
+    <a href="#"><div class="thumb art anim"></div><h4>Wild Child</h4><span class="tag">Interactive Museum</span></a>
+  </div>
+  <div class="caps-line">
+    <p class="label">Capabilities</p>
+    <p>Environmental Design · Character Animation · Motion Capture (MoCap) · Full-Service 3D Animation Studio · Interactive Animations · AR Content · VR Content · Pre-Visualization</p>
+  </div>
+</section>
+
+<p class="placeholder-note">Note for review: imagery above is placeholder color blocking only — final project photos drop in once this direction is approved.</p>
+<footer class="stub">Apple 1 · Product Page — mockup for internal review, not the live site.</footer>

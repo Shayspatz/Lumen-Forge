@@ -1,0 +1,296 @@
+<title>L&F Projects — Hybrid: Apple × Editorial</title>
+<style>
+  :root{
+    --ink:#1d1d1f; --ink-soft:#6e6e73; --gray-bg:#f5f5f7; --blue:#2B6BE8; --blue-hover:#1f5dcc;
+    --gold:#C9A227; --gold-deep:#8a6d1c; --line:#d2d2d7;
+    --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Helvetica,Arial,sans-serif;
+    --serif:Georgia,"Times New Roman",serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:#fff;color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+  a{color:inherit}
+
+  .review-banner{background:#1d1d1f;color:#fff;padding:14px 20px;text-align:center;font-size:14px;line-height:1.5;letter-spacing:-.01em}
+  .review-banner b{color:var(--gold)}
+  .review-banner .nav{margin-top:6px;font-size:13px;opacity:.75}
+  .review-banner .nav a{color:#fff;text-decoration:underline;margin:0 8px}
+
+  /* ---- header + hero + logo grid: UNCHANGED, matches real site ---- */
+  .site-header{border-bottom:2px solid var(--gold);background:#fff}
+  .site-header__inner{max-width:1447px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:88px;padding:0 clamp(20px,4vw,56px)}
+  .site-header__nav{display:flex;gap:clamp(20px,3vw,48px);list-style:none;margin:0;padding:0}
+  .site-header__nav a{font-size:16px;font-weight:500;text-decoration:none;color:#1A1D25}
+  .site-header__brand{font-family:var(--serif);font-size:24px;font-weight:600;white-space:nowrap;color:#1A1D25}
+  .site-header__cta{background:var(--blue);color:#fff;padding:11px 26px;border-radius:999px;font-size:14px;font-weight:600;text-decoration:none;white-space:nowrap}
+  .site-header__cta:hover{background:var(--blue-hover)}
+  @media (max-width:900px){.site-header__nav{display:none}}
+
+  .hero{max-width:900px;margin:0 auto;text-align:center;padding:64px 24px 40px;font-family:var(--serif)}
+  .hero .eyebrow{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-deep);font-weight:700;margin:0 0 14px;font-family:var(--sans)}
+  .hero h1{font-size:clamp(32px,5vw,48px);font-weight:600;margin:0 0 18px;line-height:1.15;color:#1A1D25}
+  .hero p{font-size:17px;line-height:1.7;color:#5b5f68;margin:0;font-family:var(--sans)}
+
+  .logo-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:2px;background:#E7E4DC}
+  .logo-grid a{position:relative;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;overflow:hidden;text-decoration:none}
+  .logo-grid a::before{content:"";position:absolute;inset:0;opacity:.92}
+  .logo-grid a:nth-child(8n+1)::before{background:linear-gradient(135deg,#1A1D25,#3a3f4d)}
+  .logo-grid a:nth-child(8n+2)::before{background:linear-gradient(135deg,#2B3A55,#1A1D25)}
+  .logo-grid a:nth-child(8n+3)::before{background:linear-gradient(135deg,#3a2f1a,#1A1D25)}
+  .logo-grid a:nth-child(8n+4)::before{background:linear-gradient(135deg,#1A1D25,#4a4235)}
+  .logo-grid a:nth-child(8n+5)::before{background:linear-gradient(135deg,#22303f,#1A1D25)}
+  .logo-grid a:nth-child(8n+6)::before{background:linear-gradient(135deg,#1A1D25,#33261f)}
+  .logo-grid a:nth-child(8n+7)::before{background:linear-gradient(135deg,#2a2a2a,#1A1D25)}
+  .logo-grid a:nth-child(8n+8)::before{background:linear-gradient(135deg,#1e2430,#1A1D25)}
+  .logo-grid span{position:relative;z-index:1;color:#fff;font-weight:700;font-size:clamp(11px,1.3vw,15px);letter-spacing:.06em;text-align:center;padding:6px 10px;text-transform:uppercase}
+  @media (max-width:1024px){.logo-grid{grid-template-columns:repeat(4,1fr)}}
+  @media (max-width:600px){.logo-grid{grid-template-columns:repeat(2,1fr)}}
+
+  .intro{max-width:680px;margin:0 auto;text-align:center;padding:96px 24px 0}
+  .intro h2{font-family:var(--serif);font-size:38px;font-weight:600;letter-spacing:-.01em;margin:0 0 14px}
+  .intro p{font-size:18px;line-height:1.6;letter-spacing:.005em;color:var(--ink-soft);margin:0}
+
+  /* ================= HYBRID: apple's quiet typographic system + editorial's asymmetric cluster/panel ================= */
+  .btn-pill{display:inline-flex;align-items:center;font-size:16px;font-weight:500;letter-spacing:-.01em;color:#fff;background:var(--blue);border-radius:980px;padding:12px 24px;text-decoration:none}
+  .btn-pill:hover{background:var(--blue-hover)}
+  .link-more{display:inline-flex;align-items:center;gap:4px;font-size:16px;font-weight:500;letter-spacing:-.01em;color:var(--gold-deep);text-decoration:none}
+  .link-more:hover{text-decoration:underline}
+  .link-more span{font-size:18px}
+
+  .service-block{padding:96px 0}
+  .service-block:nth-of-type(even){background:var(--gray-bg)}
+
+  .service-head{max-width:1240px;margin:0 auto 52px;padding:0 24px}
+  .service-head .kicker{font-size:16px;font-weight:500;letter-spacing:-.01em;color:var(--ink-soft);margin:0 0 8px}
+  .service-head h2{font-family:var(--serif);font-size:clamp(32px,4vw,46px);font-weight:600;letter-spacing:-.008em;line-height:1.12;margin:0 0 16px}
+  .service-head .dek{max-width:560px;font-size:18px;line-height:1.6;letter-spacing:.003em;color:var(--ink-soft);margin:0 0 28px}
+  .service-head .cta-row{display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+
+  .service-body{max-width:1240px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:1.5fr 1fr;gap:40px;align-items:stretch}
+
+  .core-cluster{display:grid;grid-template-columns:1.35fr 1fr;grid-template-rows:1fr 1fr;grid-template-areas:"feature secA" "feature secB";gap:16px;height:460px}
+  .core-tile{text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:10px}
+  .core-tile .thumb{flex:1;border-radius:18px;overflow:hidden;min-height:0}
+  .core-tile .cap{font-size:14.5px;font-weight:500;letter-spacing:-.006em;line-height:1.3}
+  .core-tile .cap .tag{display:block;font-size:11.5px;font-weight:600;letter-spacing:0;color:var(--gold-deep);margin-bottom:3px}
+  .core-tile.feature{grid-area:feature;display:flex}
+  .core-tile.feature .thumb{flex:1}
+  .core-tile.feature .cap{font-size:17px}
+  .core-tile.secA{grid-area:secA}
+  .core-tile.secB{grid-area:secB}
+  @media (max-width:860px){
+    .core-cluster{grid-template-columns:1fr;grid-template-rows:220px 160px 160px;grid-template-areas:"feature" "secA" "secB";height:auto}
+  }
+
+  .cap-panel{background:#1d1d1f;border-radius:20px;padding:40px 36px;color:#fff;display:flex;flex-direction:column;height:100%}
+  .cap-panel .cap-kicker{font-size:14px;font-weight:500;letter-spacing:-.005em;color:#a3a3a8;margin:0 0 8px}
+  .cap-panel h3{font-family:var(--serif);font-size:23px;font-weight:600;letter-spacing:-.005em;margin:0 0 24px;color:#fff}
+  .cap-list{list-style:none;margin:0 0 28px;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:0 16px;flex:1}
+  .cap-list li{font-size:13.5px;letter-spacing:-.003em;line-height:1.4;color:#d4d4d8;display:flex;gap:8px;align-items:flex-start;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.1)}
+  .cap-list li::before{content:"✓";color:var(--gold);font-weight:700;flex-shrink:0}
+  .cap-actions{margin-top:auto;display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+  .cap-actions .link-more{color:#fff}
+
+  @media (max-width:980px){
+    .service-body{grid-template-columns:1fr}
+    .core-cluster{height:420px}
+    .cap-panel{height:auto}
+  }
+  @media (max-width:560px){.cap-list{grid-template-columns:1fr}}
+
+  .thumb.dome{background:linear-gradient(135deg,#dfe7ee,#aebdcc)}
+  .thumb.map{background:linear-gradient(135deg,#dbe6fb,#9db8ee)}
+  .thumb.events{background:linear-gradient(135deg,#f3ddd6,#dba996)}
+  .thumb.anim{background:linear-gradient(135deg,#f2e6c9,#d9bd7c)}
+
+  .more-block{max-width:1240px;margin:52px auto 0;padding:0 24px}
+  .more-label{font-size:14px;font-weight:500;letter-spacing:-.005em;color:var(--ink-soft);margin:0 0 22px}
+  .more-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:24px}
+  .more-item{text-decoration:none;color:var(--ink);display:block}
+  .more-item .thumb{aspect-ratio:4/3;border-radius:14px;overflow:hidden;margin-bottom:12px}
+  .more-item .cap{font-size:14px;font-weight:500;letter-spacing:-.006em;line-height:1.4}
+
+  .placeholder-note{max-width:680px;margin:0 auto;text-align:center;padding:70px 24px;font-size:13px;color:var(--ink-soft);font-style:italic}
+  footer.stub{text-align:center;padding:30px;color:var(--ink-soft);font-size:13px;border-top:1px solid var(--line)}
+</style>
+
+<div class="review-banner">
+  <div><b>Finalist — Hybrid</b> · the asymmetric project cluster and dark capabilities panel from the Service-Led Showcase, restyled with Apple's typographic system: SF Pro, #1d1d1f ink, #f5f5f7 sections, tight letter-spacing, soft pastel imagery.</div>
+  <div class="nav">Compare: <a href="apple-1-product-page.html">Apple Product Page</a> <a href="concept-2-editorial-feed.html">Service-Led Showcase</a> <a href="hybrid-apple-editorial.html">Hybrid</a> <a href="index.html">← Back to overview</a></div>
+</div>
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <nav><ul class="site-header__nav"><li><a href="#">Home</a></li><li><a href="#">About</a></li><li><a href="#">Blog</a></li></ul></nav>
+    <div class="site-header__brand">Lumen &amp; Forge</div>
+    <div style="display:flex;align-items:center;gap:36px">
+      <nav><ul class="site-header__nav"><li><a href="#">Services</a></li><li><a href="#" style="color:var(--gold-deep)">Projects</a></li><li><a href="#">Contact</a></li></ul></nav>
+      <a class="site-header__cta" href="#">Book a Call</a>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <p class="eyebrow">Selected Work</p>
+  <h1>Lumen &amp; Forge Projects</h1>
+  <p>From geodesic domes to building-scale projection mapping, explore how we've brought immersive experiences to life for brands, artists, and institutions around the world.</p>
+</section>
+
+<div class="logo-grid">
+  <a href="#"><span>Nike</span></a><a href="#"><span>Toyota</span></a><a href="#"><span>Don Julio</span></a><a href="#"><span>Dodgers</span></a>
+  <a href="#"><span>Texas Tech</span></a><a href="#"><span>Bitmain</span></a><a href="#"><span>McLaren × Mastercard</span></a><a href="#"><span>Travis Scott</span></a>
+</div>
+
+<div class="intro">
+  <h2>Projects By Service</h2>
+  <p>Every engagement, tailored to the occasion.</p>
+</div>
+
+<section class="service-block">
+  <div class="service-head">
+    <p class="kicker">Dome Projection</p>
+    <h2>Immersion, in the round.</h2>
+    <p class="dek">Geodesic and inflatable dome environments engineered for full 360° immersion — from custom fabrication and rigging to real-time show content.</p>
+  </div>
+  <div class="service-body">
+    <div class="core-cluster">
+      <a class="core-tile feature" href="#"><div class="thumb dome"></div><div class="cap"><span class="tag">Featured</span>360° Projection Dome — Capital One Venture</div></a>
+      <a class="core-tile secA" href="#"><div class="thumb dome"></div><div class="cap">World's Largest Projection Dome — Miami</div></a>
+      <a class="core-tile secB" href="#"><div class="thumb dome"></div><div class="cap">Experiential Branding Dome — HP Toronto</div></a>
+    </div>
+    <div class="cap-panel">
+      <p class="cap-kicker">Capabilities</p>
+      <h3>Dome Projection</h3>
+      <ul class="cap-list">
+        <li>Custom Dome Engineering</li><li>Dome Fabrication</li>
+        <li>Show Running</li><li>Dome Rendering &amp; Design</li>
+        <li>Hardware &amp; Infrastructure</li><li>Custom Dome Content</li>
+        <li>Dome Projection Systems</li><li>4D Projection Dome FX</li>
+      </ul>
+      <div class="cap-actions">
+        <a class="btn-pill" href="#">Book a Call</a>
+        <a class="link-more" href="#">Explore Dome Projection <span>›</span></a>
+      </div>
+    </div>
+  </div>
+  <div class="more-block">
+    <p class="more-label">More Dome Projection Work</p>
+    <div class="more-strip">
+      <a class="more-item" href="#"><div class="thumb dome"></div><p class="cap">Resorts World Rooftop Domes</p></a>
+      <a class="more-item" href="#"><div class="thumb dome"></div><p class="cap">360° Journey: Dominican Republic to Times Square</p></a>
+      <a class="more-item" href="#"><div class="thumb dome"></div><p class="cap">Big Sur 360° Projection Event</p></a>
+    </div>
+  </div>
+</section>
+
+<section class="service-block">
+  <div class="service-head">
+    <p class="kicker">Projection Mapping</p>
+    <h2>Every surface, a screen.</h2>
+    <p class="dek">Building-scale, architectural, and object mapping that turns real-world surfaces into a canvas — precisely calibrated and rendered in real time.</p>
+  </div>
+  <div class="service-body">
+    <div class="core-cluster">
+      <a class="core-tile feature" href="#"><div class="thumb map"></div><div class="cap"><span class="tag">Featured</span>Don Julio: Stratosphere Projection — Super Bowl 2024</div></a>
+      <a class="core-tile secA" href="#"><div class="thumb map"></div><div class="cap">Nike Building Projection</div></a>
+      <a class="core-tile secB" href="#"><div class="thumb map"></div><div class="cap">McLaren × Mastercard — The Stratosphere</div></a>
+    </div>
+    <div class="cap-panel">
+      <p class="cap-kicker">Capabilities</p>
+      <h3>Projection Mapping</h3>
+      <ul class="cap-list">
+        <li>Building Projection</li><li>3D Architectural Mapping</li>
+        <li>3D Projection Mapping</li><li>Large-Scale Projection Mapping</li>
+        <li>Interactive Projection</li><li>Projection Murals</li>
+        <li>Real-Time Projection Tracking</li><li>Auto-Calibration</li>
+      </ul>
+      <div class="cap-actions">
+        <a class="btn-pill" href="#">Book a Call</a>
+        <a class="link-more" href="#">Explore Projection Mapping <span>›</span></a>
+      </div>
+    </div>
+  </div>
+  <div class="more-block">
+    <p class="more-label">More Projection Mapping Work</p>
+    <div class="more-strip">
+      <a class="more-item" href="#"><div class="thumb map"></div><p class="cap">Toyota Convention Projection Mapping</p></a>
+      <a class="more-item" href="#"><div class="thumb map"></div><p class="cap">Dodgers World Series — Hollywood Sign Projection</p></a>
+      <a class="more-item" href="#"><div class="thumb map"></div><p class="cap">Projection-Mapped Mural — WorldMark by Wyndham</p></a>
+    </div>
+  </div>
+</section>
+
+<section class="service-block">
+  <div class="service-head">
+    <p class="kicker">Events &amp; Project Design</p>
+    <h2>Planned to the last detail.</h2>
+    <p class="dek">End-to-end design and previsualization for large-format live activations — from first sketch to a fully budgeted, buildable plan.</p>
+  </div>
+  <div class="service-body">
+    <div class="core-cluster">
+      <a class="core-tile feature" href="#"><div class="thumb events"></div><div class="cap"><span class="tag">Featured</span>Travis Scott × Air Jordan — ComplexCon</div></a>
+      <a class="core-tile secA" href="#"><div class="thumb events"></div><div class="cap">Las Vegas New Year's Eve at Area15</div></a>
+      <a class="core-tile secB" href="#"><div class="thumb events"></div><div class="cap">Texas Tech 100th Anniversary Celebration</div></a>
+    </div>
+    <div class="cap-panel">
+      <p class="cap-kicker">Capabilities</p>
+      <h3>Events &amp; Project Design</h3>
+      <ul class="cap-list">
+        <li>Venue Logistic Consulting</li><li>Design &amp; Technical Drawing</li>
+        <li>Tech Spec Planning</li><li>Event Pre-Visualization</li>
+        <li>Photorealistic Images</li><li>3D Video Renders</li>
+        <li>Layouts for Approval</li><li>Budgetary Previsualization</li>
+      </ul>
+      <div class="cap-actions">
+        <a class="btn-pill" href="#">Book a Call</a>
+        <a class="link-more" href="#">Explore Events &amp; Project Design <span>›</span></a>
+      </div>
+    </div>
+  </div>
+  <div class="more-block">
+    <p class="more-label">More Events &amp; Project Design Work</p>
+    <div class="more-strip">
+      <a class="more-item" href="#"><div class="thumb events"></div><p class="cap">Bitmain WDMS Crypto Conference</p></a>
+      <a class="more-item" href="#"><div class="thumb events"></div><p class="cap">The Venetian Holiday Show</p></a>
+      <a class="more-item" href="#"><div class="thumb events"></div><p class="cap">Tropicana World Record</p></a>
+    </div>
+  </div>
+</section>
+
+<section class="service-block">
+  <div class="service-head">
+    <p class="kicker">Animation &amp; Visual Storytelling</p>
+    <h2>Stories, brought to life.</h2>
+    <p class="dek">Original animated content and environmental design, built in-house to carry an experience from first frame to final gallery.</p>
+  </div>
+  <div class="service-body">
+    <div class="core-cluster">
+      <a class="core-tile feature" href="#"><div class="thumb anim"></div><div class="cap"><span class="tag">Featured</span>Immersive Exhibit — Nat Geo</div></a>
+      <a class="core-tile secA" href="#"><div class="thumb anim"></div><div class="cap">DreamBox360: 5D Immersive Entertainment</div></a>
+      <a class="core-tile secB" href="#"><div class="thumb anim"></div><div class="cap">Interactive Museum — Wild Child</div></a>
+    </div>
+    <div class="cap-panel">
+      <p class="cap-kicker">Capabilities</p>
+      <h3>Animation &amp; Visual Storytelling</h3>
+      <ul class="cap-list">
+        <li>Environmental Design</li><li>Character Animation</li>
+        <li>Motion Capture (MoCap)</li><li>Full-Service 3D Animation Studio</li>
+        <li>Interactive Animations</li><li>AR Content</li>
+        <li>VR Content</li><li>Pre-Visualization</li>
+      </ul>
+      <div class="cap-actions">
+        <a class="btn-pill" href="#">Book a Call</a>
+        <a class="link-more" href="#">Explore Animation &amp; Visual Storytelling <span>›</span></a>
+      </div>
+    </div>
+  </div>
+  <div class="more-block">
+    <p class="more-label">More Animation &amp; Visual Storytelling Work</p>
+    <div class="more-strip">
+      <a class="more-item" href="#"><div class="thumb anim"></div><p class="cap">The XPot</p></a>
+      <a class="more-item" href="#"><div class="thumb anim"></div><p class="cap">4D Immersive Theater — Jeep</p></a>
+    </div>
+  </div>
+</section>
+
+<p class="placeholder-note">Note for review: imagery above is placeholder color blocking only — final project photos drop in once this direction is approved.</p>
+<footer class="stub">Hybrid · Apple × Editorial — mockup for internal review, not the live site.</footer>
